@@ -1,4 +1,11 @@
-<a name="v0.7.3"></a>
+<a name="v0.7.4"></a>
+### v0.7.4 (2014-02-26)
+Options now available when create markers are:
+
+hover: //set to true if you want tooltips to show on hover
+clickAction: //function you want executed when you click on a marker
+clickAttr: //this is the params to pass into the clickAction function
+
 ### v0.7.3 (2014-01-11)
 
 The most important change of this release is the overhaul of the markers attribute, which has some implications to mantain backwards compatibility. The icon definition inside a marker must be done without calling explicitly Leaflet Icon creation function. So, instead of:
