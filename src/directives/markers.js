@@ -1,4 +1,4 @@
-angular.module("leaflet-directive").directive('markers', function ($log, $rootScope, $q, leafletData, leafletHelpers, leafletMapDefaults, leafletMarkersHelpers, leafletEvents) {
+angular.module("leaflet-directive").directive('markers', function($log, $rootScope, $q, leafletData, leafletHelpers, leafletMapDefaults, leafletMarkersHelpers, leafletEvents) {
     return {
         restrict: "A",
         scope: false,
@@ -10,7 +10,7 @@ angular.module("leaflet-directive").directive('markers', function ($log, $rootSc
                 Helpers = leafletHelpers,
                 isDefined = leafletHelpers.isDefined,
                 isString = leafletHelpers.isString,
-                leafletScope  = mapController.getLeafletScope(),
+                leafletScope = mapController.getLeafletScope(),
                 markers = leafletScope.markers,
                 deleteMarker = leafletMarkersHelpers.deleteMarker,
                 addMarkerWatcher = leafletMarkersHelpers.addMarkerWatcher,
@@ -62,6 +62,19 @@ angular.module("leaflet-directive").directive('markers', function ($log, $rootSc
                                 // Bind message
                                 if (isDefined(markerData.message)) {
                                     marker.bindPopup(markerData.message);
+                                    if (markerData.hover) {
+                                        marker.on('mouseover', function(evt) {
+                                            //evt.target is the marker that is being moused over 
+                                            //bindPopup() does not need to be called here if it was already called
+                                            //somewhere else for this marker.
+                                            _.debounce(evt.target.openPopup());
+                                        });
+                                        marker.on('click', function(evt) {
+                                            //again, evt.target will contain the marker that was clicked
+                                            markerData.clickAction(markerData.clickAttr);
+                                        });
+                                    }
+
                                 }
 
                                 // Add the marker to a cluster group if needed
