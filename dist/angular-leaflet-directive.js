@@ -651,20 +651,21 @@ angular.module("leaflet-directive").directive('markers', function($log, $rootSco
 
                                 // Bind message
                                 if (isDefined(markerData.message)) {
-                                    marker.bindPopup(markerData.message);
-                                    if (markerData.hover) {
-                                        marker.on('mouseover', function(evt) {
-                                            //evt.target is the marker that is being moused over 
-                                            //bindPopup() does not need to be called here if it was already called
-                                            //somewhere else for this marker.
-                                            _.debounce(evt.target.openPopup());
-                                        });
-                                        marker.on('click', function(evt) {
-                                            //again, evt.target will contain the marker that was clicked
-                                            markerData.clickAction(markerData.clickAttr);
-                                        });
-                                    }
+                                    $(marker).on('mouseenter', function(evt) {
+                                        var el = $(evt.target);
+                                        var openTimeoutId = setTimeout(function() {
+                                            evt.target.openPopup();
+                                        }, 800);
+                                        el.data('openTimeoutId', openTimeoutId);
+                                    }).on('mouseleave', function(evt) {
+                                        var el = $(evt.target);
+                                        clearTimeout(el.data('openTimeoutId'));
+                                    });
 
+                                    marker.on('click', function(evt) {
+                                        //again, evt.target will contain the marker that was clicked
+                                        markerData.clickAction(markerData.clickAttr);
+                                    });
                                 }
 
                                 // Add the marker to a cluster group if needed
