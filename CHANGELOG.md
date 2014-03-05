@@ -1,4 +1,7 @@
-<a name="v0.7.4"></a>
+<a name="v0.7.5"></a>
+### v0.7.5 (2014-03-04)
+Hover handles better
+
 ### v0.7.4 (2014-02-26)
 Options now available when create markers are:
 
